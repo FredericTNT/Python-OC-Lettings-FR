@@ -12,7 +12,7 @@ class TestProfiles:
     client = Client()
 
     def test_index(self):
-        url = reverse('profiles_index')
+        url = reverse('profiles:index')
         response = self.client.get(url)
         content = response.content.decode()
         assert response.status_code == 200
@@ -23,7 +23,7 @@ class TestProfiles:
             username="TopUtilisateur", is_staff=True, is_superuser=True)
         profile = Profile.objects.create(
             user=user, favorite_city="New York")
-        url = reverse('profile', args=[profile.user.username])
+        url = reverse('profiles:profile', args=[profile.user.username])
         context = {'profile': profile}
         response = self.client.get(url, data=context)
         content = response.content.decode()

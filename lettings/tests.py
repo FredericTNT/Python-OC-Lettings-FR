@@ -11,7 +11,7 @@ class TestLettings:
     client = Client()
 
     def test_index(self):
-        url = reverse('lettings_index')
+        url = reverse('lettings:index')
         response = self.client.get(url)
         content = response.content.decode()
         assert response.status_code == 200
@@ -23,7 +23,7 @@ class TestLettings:
             state="Yvelines", zip_code="78000", country_iso_code="033")
         letting = Letting.objects.create(
             title="Home sweet home", address=address)
-        url = reverse('letting', args=[address.id])
+        url = reverse('lettings:letting', args=[address.id])
         context = {'title': letting.title, 'address': letting.address}
         response = self.client.get(url, data=context)
         content = response.content.decode()
