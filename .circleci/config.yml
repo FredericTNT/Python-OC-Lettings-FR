@@ -15,9 +15,4 @@ workflows:
   build-test-and-publish-docker-image:
     jobs:
       - docker/publish:
-          after_build:
-            - run:
-                name: Run flake8 and tests
-                # This assumes flake8 and pytest are installed via the install-package step above
-                command: /app/pytest
           image: oc-lettings-tnt78
