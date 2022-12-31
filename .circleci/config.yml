@@ -22,4 +22,5 @@ workflows:
                 command: |
                   flake8
                   pytest
+          tag: oc-lettings-tnt78
           image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
