@@ -19,7 +19,5 @@ workflows:
             - run:
                 name: Run flake8 and tests
                 # This assumes flake8 and pytest are installed via the install-package step above
-                command: |
-                  python3 -m flake8
-                  python3 -m pytest
+                command: pytest
           image: oc-lettings-tnt78
