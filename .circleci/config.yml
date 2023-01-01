@@ -15,4 +15,9 @@ workflows:
   build-test-and-publish-docker-image:
     jobs:
       - docker/publish:
-          image: fredtnt/oc-lettings-tnt78
+          before_build:
+            - run:
+                command: |
+                  flake8
+                  pytest
+          image: $DOCKER_LOGIN/oc-lettings-tnt78
