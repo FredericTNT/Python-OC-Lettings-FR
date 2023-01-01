@@ -12,7 +12,7 @@ orbs:
 # and then updating the image description
 
 workflows:
-  build-test-and-publish-docker-image:
+  build-and-publish-docker-image:
     jobs:
       - docker/publish:
           image: $DOCKER_LOGIN/oc-lettings-tnt78

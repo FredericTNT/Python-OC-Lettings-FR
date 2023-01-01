@@ -14,7 +14,7 @@ class TestLettings:
         url = reverse('lettings:index')
         response = self.client.get(url)
         content = response.content.decode()
-        assert response.status_code == 200
+        assert response.status_code != 200
         assert content.find("<title>Lettings</title>") != -1
 
     def test_letting(self):
