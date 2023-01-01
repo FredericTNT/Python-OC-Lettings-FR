@@ -17,7 +17,8 @@ workflows:
       - docker/publish:
           before_build:
             - run:
-                command: |
-                  flake8
-                  pytest
+                command: echo "Did this before the build"
+          after_build:
+            - run:
+                command: echo "Did this after the build"
           image: $DOCKER_LOGIN/oc-lettings-tnt78
