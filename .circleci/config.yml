@@ -15,10 +15,4 @@ workflows:
   build-test-and-publish-docker-image:
     jobs:
       - docker/publish:
-          before_build:
-            - run:
-                command: echo "Did this before the build"
-          after_build:
-            - run:
-                command: echo "Did this after the build"
           image: $DOCKER_LOGIN/oc-lettings-tnt78
