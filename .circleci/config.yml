@@ -19,4 +19,4 @@ jobs:
 workflows:
   my-pipeline:
     jobs:
-      - build-and-publish-docker-image:
+      - build-and-publish-docker-image
