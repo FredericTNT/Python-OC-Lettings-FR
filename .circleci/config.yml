@@ -9,14 +9,10 @@ version: 2.1
 orbs:
   docker: circleci/docker@2.2.0
 
-jobs:
+workflows:
   build-and-publish-docker-image:
-    executor: python/default
-    steps:
+    jobs:
       - docker/publish:
           image: $DOCKER_LOGIN/oc-lettings-tnt78
-
-workflows:
-  my-pipeline:
-    jobs:
-      - build-and-publish-docker-image
+      - run:
+          command: echo "it's done"
