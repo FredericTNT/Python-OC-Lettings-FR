@@ -15,15 +15,15 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - docker/check
+      - docker/check:
+          use-docker-credentials-store: true
       - docker/build:
           image: $DOCKER_LOGIN/oc-lettings-tnt78
       - docker/push:
-          digest-path: /tmp/digest.txt
           image: $DOCKER_LOGIN/oc-lettings-tnt78
       - run:
           command: |
-            echo "Digest is: $(</tmp/digest.txt)"
+            echo "it's done"
 
 workflows:
   my-pipeline:
