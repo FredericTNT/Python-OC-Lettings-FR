@@ -42,12 +42,13 @@ jobs:
             docker images
 
   deploy:
-    executor: heroku/default
+    executor: docker/docker
     steps:
       - checkout
       - run:
           command: |
             docker images
+      - heroku/install
 
 workflows:
   my-pipeline:
