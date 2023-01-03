@@ -7,9 +7,24 @@ version: 2.1
 # and then updating the image description
 
 orbs:
+  python: circleci/python@2.1.1
   docker: circleci/docker@2.2.0
 
 jobs:
+  install-and-test:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run linter and tests
+          # This assumes flake8 and pytest are installed via the install-package step above
+          command: |
+            flake8
+            pytest
+
   build-and-push:
     executor: docker/docker
     steps:
@@ -23,9 +38,16 @@ jobs:
           image: $DOCKER_LOGIN/oc-lettings-tnt78
       - run:
           command: |
-            echo "it's done"
+            docker images
 
 workflows:
   my-pipeline:
     jobs:
-      - build-and-push
+      - install-and-test:
+          filters:
+            branches:
+              ignore: master
+      - build-and-push:
+          filters:
+            branches:
+              only: master
