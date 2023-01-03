@@ -9,6 +9,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.1.1
   docker: circleci/docker@2.2.0
+  heroku: circleci/heroku@2.0
 
 jobs:
   install-and-test:
@@ -40,6 +41,14 @@ jobs:
           command: |
             docker images
 
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - run:
+          command: |
+            docker images
+
 workflows:
   my-pipeline:
     jobs:
@@ -51,3 +60,6 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy:
+          requires:
+            - build-and-push
