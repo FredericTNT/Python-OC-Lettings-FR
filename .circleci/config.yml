@@ -26,21 +26,6 @@ jobs:
             flake8
             pytest
 
-  build-and-push:
-    executor: docker/docker
-    steps:
-      - setup_remote_docker
-      - checkout
-      - docker/check:
-          use-docker-credentials-store: false
-      - docker/build:
-          image: $DOCKER_LOGIN/oc-lettings-tnt78
-      - docker/push:
-          image: $DOCKER_LOGIN/oc-lettings-tnt78
-      - run:
-          command: |
-            docker images
-
   deploy:
     executor: docker/docker
     steps:
@@ -56,19 +41,11 @@ jobs:
 workflows:
   my-pipeline:
     jobs:
-      - install-and-test:
-          filters:
-            branches:
-              ignore: master
+      - install-and-test
       - docker/publish:
           image: $DOCKER_LOGIN/oc-lettings-tnt78
-          after_build:
-            - run:
-                name: Run linter and tests
-                command: |
-                  ls -l
-                  ls -a
-                  ls -a -R
+          requires:
+            - install-and-test
           filters:
             branches:
               only: master
