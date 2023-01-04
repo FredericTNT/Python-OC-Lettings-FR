@@ -32,7 +32,7 @@ jobs:
       - setup_remote_docker
       - checkout
       - docker/check:
-          use-docker-credentials-store: true
+          use-docker-credentials-store: false
       - docker/build:
           image: $DOCKER_LOGIN/oc-lettings-tnt78
       - docker/push:
@@ -45,6 +45,8 @@ jobs:
     executor: docker/docker
     steps:
       - checkout
+      - docker/check:
+          use-docker-credentials-store: false
       - run:
           command: |
             docker images
