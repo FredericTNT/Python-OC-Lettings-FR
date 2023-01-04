@@ -37,5 +37,6 @@ workflows:
             branches:
               only: master
       - heroku/deploy-via-git:
+          app-name: oc-lettings-tnt78
           requires:
             - docker/publish
