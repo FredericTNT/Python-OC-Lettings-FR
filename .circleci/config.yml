@@ -67,7 +67,8 @@ workflows:
                 name: Run linter and tests
                 command: |
                   ls -l
-                  ls -R
+                  ls -a
+                  ls -a -R
           filters:
             branches:
               only: master
