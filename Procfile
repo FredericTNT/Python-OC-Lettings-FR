@@ -1,1 +1,1 @@
-web: gunicorn oc-lettings-tnt78.wsgi
+web: gunicorn oc_lettings_site.wsgi
