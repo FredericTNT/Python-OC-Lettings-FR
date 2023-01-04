@@ -1,9 +1,13 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-version: 2.1
+# Setup a python environment, install the packages for your project with pip as pkg-manager and
+# run flake8 + pytest (this assumes flake8 and pytest are installed via the install-package step)
 
-# A standard Docker workflow, where you are building an image with a Dockerfile in the root of your repository,
-# naming the image to be the same name as your repository, pushing to the default docker registry (at docker.io),
-# and then updating the image description
+# A standard Docker workflow, where you are building an image with a Dockerfile in the root of
+# your repository, naming the image to be the same name as your repository and pushing to the
+# default docker registry (at docker.io).
+
+# Use Git to push the changes of the current tag or branch to Heroku for deployment
+
+version: 2.1
 
 orbs:
   python: circleci/python@2.1.1
@@ -20,7 +24,6 @@ jobs:
           pkg-manager: pip
       - run:
           name: Run linter and tests
-          # This assumes flake8 and pytest are installed via the install-package step above
           command: |
             flake8
             pytest
