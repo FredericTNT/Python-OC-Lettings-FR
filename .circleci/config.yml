@@ -28,6 +28,20 @@ jobs:
             flake8
             pytest
 
+  deploy-via-docker:
+    executor: docker/machine
+    steps:
+      - heroku/install
+      - heroku/check-authentication
+      - checkout
+      - docker/check
+      - heroku/push-docker-image:
+          app-name: oc-lettings-container
+          process-types: web
+      - heroku/release-docker-image:
+          app-name: oc-lettings-container
+          process-types: web
+
 workflows:
   my-pipeline:
     jobs:
@@ -43,3 +57,9 @@ workflows:
           app-name: oc-lettings-tnt78
           requires:
             - docker/publish
+      - deploy-via-docker:
+          requires:
+            - install-and-test
+          filters:
+            branches:
+              only: container
