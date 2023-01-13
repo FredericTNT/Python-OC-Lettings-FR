@@ -75,3 +75,20 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+## Déploiement
+
+### Principes généraux
+
+A chaque évolution de l'une des branches du repository GitHub du projet, un workflow CircleCI
+se lance automatiquement. Il comprend plusieurs étapes allant de l'installation des dépendances
+du projet et de l'exécution de tests, au déploiement sur Heroku, en passant par la génération 
+d'une image Docker et sa publication dans un repository DockerHub.
+
+Chaque étape est liée avec la précédente et ne s'exécute qu'en cas de réussite... 
+
+### Configuration requise
+
+
+### Etapes du déploiement
+
