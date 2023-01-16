@@ -102,6 +102,12 @@ HEROKU_API_KEY    # Clé API du compte Heroku
 - Un fichier config.yml dans le répertoire .circleci à la racine du projet (voir la rubrique
 'Etapes du déploiement' pour le détail).
 
+- Un fichier Procfile à la racine du projet qui contient les commandes à exécuter au démarrage de
+l'application web.
+```
+web: gunicorn oc_lettings_site.wsgi
+```
+
 - Un fichier Dockerfile à la racine du projet qui contient les instructions nécessaires à la
 création de l'image Docker. En complément un fichier .dockerignore permet de lister les répertoires
 ou fichiers à ignorer lors de la copie. Selon que vous souhaitez une image pour une exécution
@@ -119,8 +125,8 @@ CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 # Exécution application web https://nom_app.herokuapp.com/
 CMD ["gunicorn", "oc_lettings_site.wsgi"] 
 ```
-- L'exécution de flake8 et pytest nécessitent que les dépendances soient installées au préalable
-et figurent dans le fichier requirements.txt à la racine du projet.
+- L'exécution de flake8 et pytest au cours du workflow nécessitent que les dépendances soient
+installées au préalable et figurent dans le fichier requirements.txt à la racine du projet.
 
 
 ### Etapes du déploiement
@@ -155,6 +161,10 @@ ou des tests non concluants, le workflow s'achève en mode 'Failed'.
 - La seconde étape **docker/publish** requiert la bonne exécution de l'étape 'Install-and-test',
 construit une image Docker du projet sur la base des instructions du fichier Dockerfile et la
 publie sur le repository DockerHub.
+```
+# Lancement de l'application locale via l'image publiée sur le repository DockerHub
+$ docker run -d -p 8000:8000  username/oc-lettings-tnt78:Tag
+```
 - La troisième étape **heroku/deploy-via-git** requiert la bonne exécution de l'étape
 'docker/publish' et déploie l'application sur Heroku via une copie du repository GitHub du projet,
 l'installation des dépendances et la génération des fichiers statiques dans le répertoire défini
@@ -166,7 +176,12 @@ Heroku est accessible à l'adresse **https://oc-lettings-tnt78.herokuapp.com/**
 - Une quatrième étape **deploy-via-docker** est implémentée pour une branche spécifique du projet
 nommée container. Elle requiert la bonne exécution de l'étape 'Install-and-test' et déploie
 l'application sur Heroku en mode container Docker, via une image Docker construite sur la base des
-instructions du fichier Dockerfile. Attention vous devez au préalable générer les fichiers
-statiques avec la commande 'python manage.py collectstatic --noinput', modifier le fichier
-Dokerfile pour une exécution de l'image en mode application web et mettre à jour la branche via un
-git push. L'application est accessible à l'adresse **https://oc-lettings-container.herokuapp.com/**
+instructions du fichier Dockerfile. Attention vous devez au préalable modifier le fichier
+Dockerfile pour une exécution de l'image en mode application web et ajouter la génération des
+fichiers statiques.
+L'application est accessible à l'adresse **https://oc-lettings-container.herokuapp.com/**
+```
+# Modification fichier Dockerfile
+RUN python manage.py collectstatic --noinput
+CMD ["gunicorn", "oc_lettings_site.wsgi"] 
+```
