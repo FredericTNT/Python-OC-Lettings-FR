@@ -22,6 +22,10 @@ else:
     ALLOWED_HOSTS = []
     DEBUG = True
 
+# Liste d'origines de confiance pour les requêtes non sûres (par ex. POST)
+CSRF_TRUSTED_ORIGINS = ['https://oc-lettings-tnt78.herokuapp.com',
+                        'https://oc-lettings-container.herokuapp.com']
+
 # Application definition
 
 INSTALLED_APPS = [
