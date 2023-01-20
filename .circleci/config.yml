@@ -48,7 +48,7 @@ workflows:
       - install-and-test
       - docker/publish:
           image: $DOCKER_LOGIN/oc-lettings-tnt78
-          extra_build_args: --file Dockerfile.loc
+          dockerfile: Dockerfile.loc
           requires:
             - install-and-test
           filters:
