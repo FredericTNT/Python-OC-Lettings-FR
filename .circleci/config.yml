@@ -47,7 +47,7 @@ workflows:
     jobs:
       - install-and-test
       - docker/publish:
-          image: $DOCKER_LOGIN/oc-lettings-tnt78
+          image: $DOCKER_LOGIN/oc-lettings-local
           dockerfile: Dockerfile.loc
           requires:
             - install-and-test
