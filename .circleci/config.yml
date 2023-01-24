@@ -53,7 +53,7 @@ workflows:
             - install-and-test
           filters:
             branches:
-              only: master
+              only: team
       - heroku/deploy-via-git:
           app-name: oc-lettings-tnt78
           requires:

@@ -7,6 +7,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Détection du fonctionnement sous Heroku
 IS_HEROKU = "DYNO" in os.environ
+for variable in os.environ:
+    print(variable, os.environ[variable])
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
