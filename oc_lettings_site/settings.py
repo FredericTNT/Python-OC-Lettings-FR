@@ -5,20 +5,22 @@ from sentry_sdk.integrations.django import DjangoIntegration
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Détection du fonctionnement sous Heroku
-IS_HEROKU = "DYNO" in os.environ
+# Vérification de la présence des variables d'environnement
 for variable in os.environ:
     print(variable, os.environ[variable])
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+if "DJANGO_KEY" in os.environ:
+    SECRET_KEY = os.environ["DJANGO_KEY"]
+else:
+    raise SystemExit("Warning !!! Environment variable DJANGO_KEY isn't define")
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "hfg2_&74q5wtv6k6*2@iw3t$wmsyr2*89$&&!!vim2u#qhgb=*"
-if 'SECRET_KEY' in os.environ:
-    SECRET_KEY = os.environ["SECRET_KEY"]
+if "SENTRY_DSN" in os.environ:
+    sentry_dsn = os.environ["SENTRY_DSN"]
+else:
+    raise SystemExit("Warning !!! Environment variable SENTRY_DSN isn't define")
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Détection du fonctionnement sous Heroku
+IS_HEROKU = "DYNO" in os.environ
 
 if IS_HEROKU:
     ALLOWED_HOSTS = ["*"]
@@ -132,9 +134,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-sentry_key = "a14ff77438124b4682d4e9e8131a2d1c@o4504553854992384"
 sentry_sdk.init(
-    dsn="https://" + sentry_key + ".ingest.sentry.io/4504553874128896",
+    dsn=sentry_dsn,
     integrations=[
         DjangoIntegration(),
     ],
