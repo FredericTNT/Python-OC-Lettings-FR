@@ -29,7 +29,11 @@ jobs:
             pytest -s
 
   deploy-via-docker:
-    executor: heroku/default
+    docker:
+      - image: 'ubuntu-2004:202107-02'
+    environment:
+      SECRET_KEY: $SECRET_KEY
+      SENTRY_DSN: $SENTRY_DSN
     steps:
       - heroku/install
       - heroku/check-authentication
