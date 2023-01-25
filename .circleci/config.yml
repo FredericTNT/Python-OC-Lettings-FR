@@ -29,8 +29,8 @@ jobs:
             pytest -s
 
   deploy-via-docker:
-    docker:
-      - image: cimg/base:current
+    machine:
+      - image: ubuntu-2004:202107-02
         environment:
           SECRET_KEY: $SECRET_KEY
           SENTRY_DSN: $SENTRY_DSN
