@@ -30,6 +30,7 @@ jobs:
 
   deploy-via-docker:
     machine:
+      docker_layer_caching: false
       image: ubuntu-2004:202107-02
       environment:
         SECRET_KEY: $SECRET_KEY
