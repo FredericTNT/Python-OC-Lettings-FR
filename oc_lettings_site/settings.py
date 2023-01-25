@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Vérification de la présence des variables d'environnement
 for variable in os.environ:
     print(variable, os.environ[variable])
-
+"""
 if "DJANGO_KEY" in os.environ:
     SECRET_KEY = os.environ["DJANGO_KEY"]
 else:
@@ -18,6 +18,11 @@ if "SENTRY_DSN" in os.environ:
     sentry_dsn = os.environ["SENTRY_DSN"]
 else:
     raise SystemExit("Warning !!! Environment variable SENTRY_DSN isn't define")
+"""
+
+SECRET_KEY = "!71egb@s_(ru$%0xgb5-ps7y%xk6-85v)u9obasd3f($e(f&a5"
+sentry_dsn = "https://a14ff77438124b4682d4e9e8131a2d1c@o4504553854992384.ingest.sentry.io/" +\
+             "4504553874128896"
 
 # Détection du fonctionnement sous Heroku
 IS_HEROKU = "DYNO" in os.environ
