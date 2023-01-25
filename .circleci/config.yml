@@ -30,10 +30,7 @@ jobs:
 
   deploy-via-docker:
     docker:
-      - image: 'ubuntu-2004:202107-02'
-        auth:
-          username: $DOCKER_LOGIN
-          password: $DOCKER_PASSWORD
+      - image: cimg/base:current
         environment:
           SECRET_KEY: $SECRET_KEY
           SENTRY_DSN: $SENTRY_DSN
