@@ -14,7 +14,7 @@ else:
 if "SENTRY_DSN" in os.environ:
     sentry_dsn = os.environ["SENTRY_DSN"]
 else:
-    sentry_dsn=""
+    sentry_dsn = ""
 
 # Détection du fonctionnement sous Heroku
 IS_HEROKU = "DYNO" in os.environ
