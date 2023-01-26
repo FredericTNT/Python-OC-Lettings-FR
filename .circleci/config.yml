@@ -26,7 +26,7 @@ jobs:
           name: Run linter and tests
           command: |
             flake8
-            pytest -s
+            pytest
 
   deploy-via-docker:
     executor: docker/machine

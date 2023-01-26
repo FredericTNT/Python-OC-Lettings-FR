@@ -6,23 +6,15 @@ from sentry_sdk.integrations.django import DjangoIntegration
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Vérification de la présence des variables d'environnement
-for variable in os.environ:
-    print(variable, os.environ[variable])
-
 if "DJANGO_KEY" in os.environ:
     SECRET_KEY = os.environ["DJANGO_KEY"]
 else:
-    raise SystemExit("Warning !!! Environment variable DJANGO_KEY isn't define")
+    SECRET_KEY = "je_suis*la!clef)secrete=environnement+hors@product"
 
-"""
 if "SENTRY_DSN" in os.environ:
     sentry_dsn = os.environ["SENTRY_DSN"]
 else:
-    raise SystemExit("Warning !!! Environment variable SENTRY_DSN isn't define")
-"""
-
-sentry_dsn = "https://a14ff77438124b4682d4e9e8131a2d1c@o4504553854992384.ingest.sentry.io/" +\
-             "4504553874128896"
+    sentry_dsn=""
 
 # Détection du fonctionnement sous Heroku
 IS_HEROKU = "DYNO" in os.environ
