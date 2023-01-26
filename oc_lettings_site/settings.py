@@ -3,13 +3,15 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Vérification de la présence des variables d'environnement
+
 if "DJANGO_KEY" in os.environ:
     SECRET_KEY = os.environ["DJANGO_KEY"]
 else:
-    SECRET_KEY = "je_suis*la!clef)secrete=environnement+hors@product"
+    SECRET_KEY = "je_suis*la!clef)secrete=environnement+hors@prod!!!"
 
 if "SENTRY_DSN" in os.environ:
     sentry_dsn = os.environ["SENTRY_DSN"]
@@ -17,6 +19,7 @@ else:
     sentry_dsn = ""
 
 # Détection du fonctionnement sous Heroku
+
 IS_HEROKU = "DYNO" in os.environ
 
 if IS_HEROKU:
@@ -26,6 +29,7 @@ else:
     DEBUG = True
 
 # Liste d'origines de confiance pour les requêtes non sûres (par ex. POST)
+
 CSRF_TRUSTED_ORIGINS = ['https://oc-lettings-tnt78.herokuapp.com',
                         'https://oc-lettings-container.herokuapp.com']
 
@@ -105,18 +109,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -130,6 +132,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# SENTRY FOR DJANGO - Initialize the Python SDK with the Django integration.
+# Once this is done, the SDK captures all unhandled exceptions and transactions.
 
 sentry_sdk.init(
     dsn=sentry_dsn,
