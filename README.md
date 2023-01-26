@@ -90,8 +90,13 @@ d'une image Docker et sa publication dans un repository DockerHub.
 - Un compte Docker avec un repository distant sur DockerHub pour enregistrer l'image publiée. Le
 nom du repository doit être identique au nom de l'image, soit username/oc-lettings-local
 
-- Un compte Heroku pour héberger les applications.
-
+- Un compte Heroku pour héberger les applications. Deux variables d'environnement liées à la
+sécurité du projet doivent être définies pour chaque application (voir la rubrique 'Sentry & 
+Sécurité' pour plus de détails)
+```
+DJANGO_KEY        # clé secrète DJANGO 'SECRET_KEY'
+SENTRY_DSN        # DSN du réceptacle Sentry des événements de l'application
+```
 - Un compte CircleCI en lien avec le compte GitHub contenant le repository du projet. Trois
 variables d'environnement liées au worflow du projet doivent être définies.
 ```
@@ -100,7 +105,7 @@ DOCKER_PASSWORD   # Mot de passe du compte Docker
 HEROKU_API_KEY    # Clé API du compte Heroku
 ```
 - Un fichier config.yml dans le répertoire .circleci à la racine du projet (voir la rubrique
-'Etapes du déploiement' pour le détail).
+'Etapes du déploiement' pour plus de détails).
 
 - Un fichier Procfile à la racine du projet qui contient les commandes à exécuter au démarrage de
 l'application web déployée via git sur Heroku.
@@ -168,7 +173,7 @@ construit une image Docker du projet sur la base des instructions du fichier Doc
 publie sur le repository DockerHub.
 ```
 # Lancement de l'application locale via l'image publiée sur le repository DockerHub
-$ docker run -d -p 8000:8000  username/oc-lettings-local:Tag
+$ docker run -d -p 8000:8000 username/oc-lettings-local:Tag
 ```
 - La troisième étape **heroku/deploy-via-git** requiert la bonne exécution de l'étape
 'docker/publish' et déploie l'application sur Heroku via une copie du repository GitHub du projet,
@@ -182,3 +187,31 @@ L'application est accessible à l'adresse
 **https://oc-lettings-container.herokuapp.com/**
 
 Les étapes 2, 3 et 4 ne s'exécutent que pour la branche master du projet.
+
+
+### Sentry & Sécurité
+
+En premier lieu, créez votre compte Sentry et déclarez un projet sur la plateforme DJANGO. 
+
+Afin de renforcer la sécurité d'accès à Sentry, le DSN complet du projet n'est pas inscrit en clair
+dans le fichier **setting.py** de l'application. Une variable d'environnement **SENTRY_DSN** doit
+être déclarée et initialisée avec le DSN.  
+
+Ce fonctionnement vaut pour chaque environnement local ou distant, Python ou image Docker, Heroku
+ou AWS... Si la variable n'est pas définie aucun événement ne sera envoyé sur Sentry. 
+
+Pour les deux applications oc-lettings-tnt78 et oc-lettings-container déployées sous Heroku, la
+déclaration et l'initialisation de la variable se fait dans Heroku comme indiquée à la rubrique
+'Déploiement / Configuration requise'. 
+
+Pour l'application en mode local lancée directement via la commande **python manage.py runserver**,
+la variable doit être déclarée et initialisée sur le poste de travail. 
+
+Pour l'image Docker publiée sur Docker Hub, le lancement doit être complété avec le paramètre 
+**--env** afin d'ajouter la variable à l'environnement spécifique de l'application. L'exemple
+suivant présente le paramétrage adéquat sous Windows PowerShell en utilisant la variable déclarée
+et initialisée sur le poste de travail.
+```
+# Lancement de l'application locale via l'image publiée sur le repository DockerHub
+PS C:\Users\OC> docker run --env SENTRY_DSN=$Env:SENTRY_DSN -d -p 8000:8000 username/oc-lettings-local:Tag
+```
