@@ -169,7 +169,7 @@ workflows:
 une image Docker Python et exécute flake8 et pytest. En cas d'anomalies identifiées par le linter
 ou des tests non concluants, le workflow s'achève en mode 'Failed'.
 - La seconde étape **docker/publish** requiert la bonne exécution de l'étape 'Install-and-test',
-construit une image Docker du projet sur la base des instructions du fichier Dockerfile.loc et la
+construit une image Docker du projet sur la base des instructions du fichier Dockerfile_loc et la
 publie sur le repository DockerHub.
 ```
 # Lancement de l'application locale via l'image publiée sur le repository DockerHub
